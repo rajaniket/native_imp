@@ -26,18 +26,18 @@ class MainActivity: FlutterActivity() {
 
    override 
     fun configureFlutterEngine(@NonNull flutterEngine: FlutterEngine) {
-        print("Testing setAlarm configure engine___________________________");
+         print("Testing setAlarm configure engine___________________________");
         
         super.configureFlutterEngine(flutterEngine)
         MethodChannel(flutterEngine.dartExecutor.binaryMessenger, CHANNEL).setMethodCallHandler {
           call, result -> 
           if(call.method == "setAlarm")
           {
-                val arguments = call.arguments()as Map<String,Int>
+               val arguments = call.arguments()as Map<String,Int>
                 val hour = arguments["hour"]
-                val min = arguments["min"]
-                val output = setAlarm(hour!!,min!!)
-                result.success(output) 
+               val min = arguments["min"]
+               setAlarm(hour!!,min!!)
+               
           }
         }
     }
@@ -48,8 +48,15 @@ class MainActivity: FlutterActivity() {
         print("Testing setAlarm native___________________________$hour $min");
        
         MyAlarmManager.createAlarm(this,object: MyAlarmListener{
-            override fun getDescription(): String {
-                return "hello";
+            override fun getAuthToken(): String = "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI2MWNhZDliZDQ5MDlmOTAwMTE4YjQyODMiLCJpYXQiOjE2NDE1NjgwNTUsImV4cCI6MTY0MTY1NDQ1NX0.dbxul59YYwlC16ZRtupNwueV1SSEY_R8gq1_C_kRaVg"
+            override fun getHabitId(): String = "61c9ad33e5d53c0011dab03e"
+            
+            override fun getPlan(): String = "after i have dinner ⏳\ni’ll read for 15 mins 😇\nso that i can watch netflix 🙈"   // 
+
+            override fun getHabitPlan(): String = "it’s time to read!"   //
+
+            override fun getDescription(): String {  // notification
+                return "continue your seven days streak";
 
             }
 
@@ -57,12 +64,12 @@ class MainActivity: FlutterActivity() {
                 return 12345;
             }
 
-            override fun getTitle(): String {
-               return "test";
+            override fun getTitle(): String {  // notification
+               return "it's time to read";
             }
 
-            override fun listOfDays(): ArrayList<Int> {
-                return arrayListOf(Days.MONDAY);
+            override fun listOfDays(): ArrayList<Int> { 
+                return arrayListOf(Days.MONDAY,);
             }
 
             override fun listOfTimesInSec(): ArrayList<Long> {

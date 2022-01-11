@@ -31,8 +31,8 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
-  int _hour = 0;
-  int _min = 0;
+  int _hour = 21;
+  int _min = 57;
   static const platform = MethodChannel('com.relife/alarm');
 
   // Future<void> _setAlarm() async {
@@ -49,13 +49,12 @@ class _MyHomePageState extends State<MyHomePage> {
           .invokeMethod('setAlarm', <String, int>{'hour': _hour, 'min': _min});
       print("Testing setAlarm _setAlarm___________________________ ");
     } on PlatformException catch (e) {
-      print("error");
+      print("error:________");
     }
   }
 
   @override
   void initState() {
-    _setAlarm();
     print("Testing setAlarm initState___________________________");
     super.initState();
   }
